@@ -32,18 +32,18 @@ topology_template:
       type: tosca.nodes.Switch
       properties:
         driver: ofdpa3
-        ipv4Loopback: 192.168.0.201
+        ipv4Loopback: 10.1.50.33
         ipv4NodeSid: 17
         isEdgeRouter: True
         name: leaf_1
-        ofId: of:0000000000000001
+        ofId: of:0000cc37abeacefa
         routerMac: 00:00:02:01:06:01
 
     # Setup the OLT switch port
     port#olt_port:
       type: tosca.nodes.SwitchPort
       properties:
-        portId: 1
+        portId: 49
         host_learning: false
       requirements:
         - switch:
@@ -54,7 +54,7 @@ topology_template:
     port#bng_port:
       type: tosca.nodes.SwitchPort
       properties:
-        portId: 31
+        portId: 1
         host_learning: false
       requirements:
         - switch:
@@ -67,7 +67,7 @@ topology_template:
       type: tosca.nodes.BNGPortMapping
       properties:
         s_tag: any
-        switch_port: 31
+        switch_port: 1
 
     # ONU Whitelist
     service#att:
@@ -76,36 +76,47 @@ topology_template:
         name: att-workflow-driver
         must-exist: true
 
-    BRCM22222222:
+    # BRCM22222222:
+    #   type: tosca.nodes.AttWorkflowDriverWhiteListEntry
+    #   properties:
+    #     serial_number: BRCM22222222
+    #     # pon_port_id: 536870912
+    #     pon_port_id: 12345678
+    #     device_id: of:000000000a5a0072
+    #   requirements:
+    #     - owner:
+    #         node: service#att
+    #         relationship: tosca.relationships.BelongsToOne
+
+    ALPHe3d1cdea:
       type: tosca.nodes.AttWorkflowDriverWhiteListEntry
       properties:
-        serial_number: BRCM22222222
-        # pon_port_id: 536870912
+        serial_number: ALPHe3d1cdea
         pon_port_id: 12345678
-        device_id: of:000000000a5a0072
+        device_id: of:0000204747023c0b
       requirements:
         - owner:
             node: service#att
             relationship: tosca.relationships.BelongsToOne
 
-    ALPHe3d1cfde:
+    ALPHe3d1d006:
       type: tosca.nodes.AttWorkflowDriverWhiteListEntry
       properties:
-        serial_number: ALPHe3d1cfde
+        serial_number: ALPHe3d1d006
         pon_port_id: 536870912
-        device_id: of:000000000a5a0072
+        device_id: of:0000b827ebb6154a
       requirements:
         - owner:
             node: service#att
             relationship: tosca.relationships.BelongsToOne
 
-    ISKT71e801a0:
-      type: tosca.nodes.AttWorkflowDriverWhiteListEntry
-      properties:
-        serial_number: ISKT71e801a0
-        pon_port_id: 536870912
-        device_id: of:000000000a5a0072
-      requirements:
-        - owner:
-            node: service#att
-            relationship: tosca.relationships.BelongsToOne
+    # ISKT71e801a0:
+    #   type: tosca.nodes.AttWorkflowDriverWhiteListEntry
+    #   properties:
+    #     serial_number: ISKT71e801a0
+    #     pon_port_id: 536870912
+    #     device_id: of:000000000a5a0072
+    #   requirements:
+    #     - owner:
+    #         node: service#att
+    #         relationship: tosca.relationships.BelongsToOne
