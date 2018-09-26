@@ -33,6 +33,7 @@ nodes:
     user: 'cord'
     pass: 'cord'
 
+#Need to find where it is using
 fabric_switches:
   -
     mac: 'cc:37:ab:ea:ce:fa'
@@ -40,6 +41,7 @@ fabric_switches:
     user: 'root'
     pass: 'onl'
 
+# This is used while restarting OLT
 olts:
   -
     ip: '10.1.50.19'
@@ -47,6 +49,12 @@ olts:
     pass: 'onl'
     fortygig: 'true'
 
+# need to find
+onus:
+  -
+    serial: 'BRCM22222222'
+
+# need to find where to use it
 hosts:
   src:
     ip: '10.1.50.22'
