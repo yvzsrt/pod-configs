@@ -27,7 +27,7 @@ topology_template:
     my_house1:
       type: tosca.nodes.RCORDSubscriber
       properties:
-        name: My House-305
+        name: Sub_ALPHe3d1cfa7
         status: pre-provisioned
         s_tag: 111
         c_tag: 111
@@ -39,7 +39,7 @@ topology_template:
     my_house2:
       type: tosca.nodes.RCORDSubscriber
       properties:
-        name: My House-306
+        name: Sub_ALPHe3d1d006
         status: pre-provisioned
         s_tag: 111
         c_tag: 112

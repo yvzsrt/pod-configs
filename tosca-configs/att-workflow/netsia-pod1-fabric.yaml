@@ -92,8 +92,8 @@ topology_template:
       type: tosca.nodes.AttWorkflowDriverWhiteListEntry
       properties:
         serial_number: ALPHe3d1cdea
-        pon_port_id: 12345678
-        device_id: of:0000204747023c0b
+        pon_port_id: 536870912
+        device_id: of:000000000a013213
       requirements:
         - owner:
             node: service#att
@@ -104,7 +104,7 @@ topology_template:
       properties:
         serial_number: ALPHe3d1d006
         pon_port_id: 536870912
-        device_id: of:0000b827ebb6154a
+        device_id: of:000000000a013213
       requirements:
         - owner:
             node: service#att
