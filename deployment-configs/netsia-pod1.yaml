@@ -12,12 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Automated deployment configuration for Flex POD 1 , olt/onu are connected to this
+# Automated deployment configuration for ONF/ON.Lab physical POD 1
 
 ---
-# This file is a copied from onlab-pod1.yml
 
-kube_config: 'netsia-pod1-olt.conf'
+kube_config: '/var/lib/jenkins/workspace/seba_test/pod-configs/kubernetes-configs/netsia-pod1.conf'
 
 nodes:
   -
@@ -33,7 +32,6 @@ nodes:
     user: 'cord'
     pass: 'cord'
 
-#Need to find where it is using
 fabric_switches:
   -
     mac: 'cc:37:ab:ea:ce:fa'
@@ -41,7 +39,6 @@ fabric_switches:
     user: 'root'
     pass: 'onl'
 
-# This is used while restarting OLT
 olts:
   -
     ip: '10.1.50.19'
@@ -49,25 +46,25 @@ olts:
     pass: 'onl'
     fortygig: 'true'
 
-# need to find
 onus:
   -
-    serial: 'BRCM22222222'
+    serial: 'ALPHe3d1cdea'
+  -
+    serial: 'ALPHe3d1d006'
+  -
+    serial: 'ISKT71e81120'
 
-# need to find where to use it
+srcHost:
+  ip: '10.1.50.22'
+  user: 'cord'
+  pass: 'cord'
+
 hosts:
   src:
-    ip: '10.1.50.22'
-    user: 'cord'
-    pass: 'cord'
-    dp_iface_name: 'enp4s0f1'
-    dp_iface_ip: '10.8.2.1'
-    dp_iface_gateway: '10.8.2.254'
+    ip: '10.90.0.51'
+    user: 'ubuntu'
+    dp_iface_name: 'eth1'
+    container_type: 'LXC'
+    container_name: 'ALPHe3d1cfde'
   dst:
-    ip: '10.192.4.62'
-    user: 'cord'
-    pass: 'cord'
-    dp_iface_name: 'ens3'
-    dp_iface_ip_qinq: '10.8.2.100'
-    dp_iface_ip: '10.8.3.1'
-    dp_iface_gateway: '10.8.3.254'
+    dp_iface_ip_qinq: '10.11.2.254'
