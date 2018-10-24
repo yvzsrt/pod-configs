@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# curl -H "xos-username: admin@opencord.org" -H "xos-password: letmein" -X POST --data-binary @onlab-pod1-subscriber.yaml http://10.90.0.101:30007/run
+# curl -H "xos-username: admin@opencord.org" -H "xos-password: letmein" -X POST --data-binary @onlab-pod2-subscriber.yaml http://10.90.0.120:30007/run
 
 tosca_definitions_version: tosca_simple_yaml_1_0
 imports:
@@ -24,50 +24,26 @@ topology_template:
   node_templates:
 
     # Pre-provision the subscriber the subscriber
-    onf_subscriber_1:
+    shad_1:
       type: tosca.nodes.RCORDSubscriber
       properties:
-        name: Sub_BRCM22222222
+        name: Sub_ALPHe3d1cfe3
         status: pre-provisioned
         c_tag: 111
-        s_tag: 111
-        onu_device: BRCM22222222
+        s_tag: 222
+        onu_device: ALPHe3d1cfe3
         nas_port_id : "PON 1/1/03/1:1.1.1"
         circuit_id: foo1
         remote_id: bar1
 
-    onf_subscriber_2:
+    shad_2:
       type: tosca.nodes.RCORDSubscriber
       properties:
-        name: Sub_ALPHe3d1cfde
+        name: Sub_ISKT71E80080
         status: pre-provisioned
-        c_tag: 112
-        s_tag: 111
-        onu_device: ALPHe3d1cfde
+        c_tag: 222
+        s_tag: 222
+        onu_device: ISKT71e80080
         nas_port_id : "PON 1/1/04/1:1.1.1"
         circuit_id: foo2
         remote_id: bar2
-
-    onf_subscriber_3:
-      type: tosca.nodes.RCORDSubscriber
-      properties:
-        name: Sub_ISKT71e801a0
-        status: pre-provisioned
-        c_tag: 113
-        s_tag: 111
-        onu_device: ISKT71e801a0
-        nas_port_id : "PON 1/1/05/1:1.1.1"
-        circuit_id: foo3
-        remote_id: bar3
-
-    onf_cig_subscriber:
-      type: tosca.nodes.RCORDSubscriber
-      properties:
-        name: Sub_CIG
-        status: pre-provisioned
-        c_tag: 111
-        s_tag: 112
-        onu_device: CIG
-        nas_port_id : "PON 1/1/05/1:1.1.1"
-        circuit_id: foo3
-        remote_id: bar3

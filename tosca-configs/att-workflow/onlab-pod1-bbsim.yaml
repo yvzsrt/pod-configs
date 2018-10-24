@@ -12,63 +12,53 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# curl -H "xos-username: admin@opencord.org" -H "xos-password: letmein" -X POST --data-binary @flex-pod1-olt-fabric.yaml http://10.192.4.241:30007/run
+# curl -H "xos-username: admin@opencord.org" -H "xos-password: letmein" -X POST --data-binary @onlab-pod1-bbsim.yaml http://10.90.0.101:30007/run
 
 tosca_definitions_version: tosca_simple_yaml_1_0
 imports:
-  - custom_types/switch.yaml
-  - custom_types/switchport.yaml
-  - custom_types/portinterface.yaml
+  - custom_types/oltdevice.yaml
+  - custom_types/onudevice.yaml
+  - custom_types/voltservice.yaml
   - custom_types/bngportmapping.yaml
   - custom_types/attworkflowdriverwhitelistentry.yaml
   - custom_types/attworkflowdriverservice.yaml
+  - custom_types/rcordsubscriber.yaml
   - custom_types/serviceinstanceattribute.yaml
   - custom_types/onosapp.yaml
-
-description: Configures the Flex POD with AT&T workflow
-
+description: Create a simulated OLT Device in VOLTHA
 topology_template:
   node_templates:
-    # Fabric configuration
-    switch#leaf_1:
-      type: tosca.nodes.Switch
-      properties:
-        driver: ofdpa3
-        ipv4Loopback: 192.168.9.24
-        ipv4NodeSid: 19
-        isEdgeRouter: false
-        name: Fabric Switch - 1
-        ofId: of:0000cc37ab5b6da8
-        routerMac: 00:00:00:00:00:03
 
-    # Setup the OLT switch port
-    port#olt_port:
-      type: tosca.nodes.SwitchPort
+    service#volt:
+      type: tosca.nodes.VOLTService
       properties:
-        portId: 7
-        host_learning: false
+        name: volt
+        must-exist: true
+
+    olt_device:
+      type: tosca.nodes.OLTDevice
+      properties:
+        name: BBSIM_OLT
+        device_type: bbsimolt
+        host: bbsim.voltha.svc
+        # host: 10.233.33.1
+        port: 50060
+        switch_datapath_id: of:0000000000000001
+        switch_port: "3"
+        outer_tpid: "0x8100"
+        uplink: "65536"
+        nas_id: "NAS_ID"
       requirements:
-        - switch:
-            node: switch#leaf_1
+        - volt_service:
+            node: service#volt
             relationship: tosca.relationships.BelongsToOne
 
-    # Port connected to the BNG
-    port#bng_port:
-      type: tosca.nodes.SwitchPort
-      properties:
-        portId: 8
-      requirements:
-        - switch:
-            node: switch#leaf_1
-            relationship: tosca.relationships.BelongsToOne
-
-    # Setup the fabric switch port where the external
-    # router is connected to
+    # POD Config
     bngmapping:
       type: tosca.nodes.BNGPortMapping
       properties:
         s_tag: any
-        switch_port: 8
+        switch_port: 31
 
     # DHCP L2 Relay config
     onos_app#dhcpl2relay:
@@ -84,8 +74,7 @@ topology_template:
         value: >
           {
             "dhcpl2relay" : {
-              "useOltUplinkForServerPktInOut" : false,
-              "dhcpServerConnectPoints" : [ "of:0000cc37ab5b6da8/8" ]
+              "useOltUplinkForServerPktInOut" : true
             }
           }
       requirements:
@@ -93,20 +82,33 @@ topology_template:
             node: onos_app#dhcpl2relay
             relationship: tosca.relationships.BelongsToOne
 
-    # ONU Whitelist
+    # Whitelist
     service#att:
       type: tosca.nodes.AttWorkflowDriverService
       properties:
         name: att-workflow-driver
         must-exist: true
 
-    ALPHe3d1cfa7:
+    NONE31323030:
       type: tosca.nodes.AttWorkflowDriverWhiteListEntry
       properties:
-        serial_number: ALPHe3d1cfa7
-        pon_port_id: 536870912
-        device_id: of:000000000ac004da
+        serial_number: NONE00000100
+        pon_port_id: 536870913
+        device_id: of:0000aabbccddee12
       requirements:
         - owner:
             node: service#att
             relationship: tosca.relationships.BelongsToOne
+
+    # Pre-provision the subscriber
+    bbsim_subscriber_1:
+      type: tosca.nodes.RCORDSubscriber
+      properties:
+        name: Sub_NONE00000100
+        status: pre-provisioned
+        c_tag: 123
+        s_tag: 456
+        onu_device: NONE00000100
+        nas_port_id : "PON 1/1/03/1:1.1.1"
+        circuit_id: foo1
+        remote_id: bar1

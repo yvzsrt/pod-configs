@@ -12,16 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# curl -H "xos-username: admin@opencord.org" -H "xos-password: letmein" -X POST --data-binary @onlab-pod1-shad.yaml http://10.90.0.101:30007/run
+# curl -H "xos-username: admin@opencord.org" -H "xos-password: letmein" -X POST --data-binary @onlab-pod1-cig.yaml http://10.90.0.101:30007/run
 
 tosca_definitions_version: tosca_simple_yaml_1_0
 imports:
   - custom_types/oltdevice.yaml
   - custom_types/onudevice.yaml
   - custom_types/voltservice.yaml
-  - custom_types/rcordsubscriber.yaml
   - custom_types/attworkflowdriverwhitelistentry.yaml
   - custom_types/attworkflowdriverservice.yaml
+  - custom_types/rcordsubscriber.yaml
+  - custom_types/switch.yaml
+  - custom_types/switchport.yaml
 description: Create a simulated OLT Device in VOLTHA
 topology_template:
   node_templates:
@@ -32,16 +34,16 @@ topology_template:
         name: volt
         must-exist: true
 
-    # OLT ------------------------------------------------
+    # CIG
     olt_device:
       type: tosca.nodes.OLTDevice
       properties:
-        name: SHAD OLT
+        name: CIG
         device_type: openolt
-        host: 10.90.0.122
-        port: 9191
+        host: 10.90.0.115
+        port: 10400
         switch_datapath_id: of:0000000000000001
-        switch_port: "2"
+        switch_port: "4"
         outer_tpid: "0x8100"
         uplink: "65536"
         nas_id: "NAS_ID"
@@ -50,56 +52,49 @@ topology_template:
             node: service#volt
             relationship: tosca.relationships.BelongsToOne
 
-    # Whitelist ------------------------------------------------
+    # Whitelist
     service#att:
       type: tosca.nodes.AttWorkflowDriverService
       properties:
         name: att-workflow-driver
         must-exist: true
 
-    ALPHe3d1cfe3:
+    CIG:
       type: tosca.nodes.AttWorkflowDriverWhiteListEntry
       properties:
-        serial_number: ALPHe3d1cfe3
-        pon_port_id: 536870912
-        device_id: of:000000000a5a0097
+        serial_number: CIGG70606829
+        pon_port_id: 536870913
+        device_id: of:000000000a5a0073
       requirements:
         - owner:
             node: service#att
             relationship: tosca.relationships.BelongsToOne
 
-    ISKT71E80080:
-      type: tosca.nodes.AttWorkflowDriverWhiteListEntry
-      properties:
-        serial_number: ISKT71E80080
-        pon_port_id: 536870912
-        device_id: of:000000000a5a0097
-      requirements:
-        - owner:
-            node: service#att
-            relationship: tosca.relationships.BelongsToOne
-
-    # Subscriber ------------------------------------------------
-    shad_1:
+    # Pre-provision the subscriber
+    cig_subscriber_1:
       type: tosca.nodes.RCORDSubscriber
       properties:
-        name: Sub_ALPHe3d1cfe3
+        name: Sub_CIGG70606829
         status: pre-provisioned
-        c_tag: 115
-        s_tag: 222
-        onu_device: ALPHe3d1cfe3
+        c_tag: 444
+        s_tag: 444
+        onu_device: CIGG70606829
         nas_port_id : "PON 1/1/03/1:1.1.1"
         circuit_id: foo1
         remote_id: bar1
 
-    shad_2:
-      type: tosca.nodes.RCORDSubscriber
+    switch#leaf_1:
+      type: tosca.nodes.Switch
       properties:
-        name: Sub_ISKT71E80080
-        status: pre-provisioned
-        c_tag: 222
-        s_tag: 222
-        onu_device: ISKT71e80080
-        nas_port_id : "PON 1/1/04/1:1.1.1"
-        circuit_id: foo2
-        remote_id: bar2
+        name: AGG_SWITCH
+        must-exist: true
+
+    port#cig_olt_port:
+      type: tosca.nodes.SwitchPort
+      properties:
+        portId: 4
+        host_learning: false
+      requirements:
+        - switch:
+            node: switch#leaf_1
+            relationship: tosca.relationships.BelongsToOne

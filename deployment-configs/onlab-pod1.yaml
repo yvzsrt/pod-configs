@@ -35,7 +35,7 @@ nodes:
 fabric_switches:
   -
     mac: 'cc:37:ab:61:80:ca'
-    ip: '10.6.0.111'
+    ip: '10.90.0.111'
     user: 'root'
     pass: 'onl'
 
@@ -49,8 +49,22 @@ olts:
 onus:
   -
     serial: 'BRCM22222222'
+  -
+    serial: 'ISKT71e801a0'
+  -
+    serial: 'ALPHe3d1cfde'
 
 srcHost:
   ip: '10.0.3.56'
   user: 'root'
   pass: 'root'
+
+hosts:
+  src:
+    ip: '10.90.0.51'
+    user: 'ubuntu'
+    dp_iface_name: 'eth1'
+    container_type: 'LXC'
+    container_name: 'ALPHe3d1cfde'
+  dst:
+    dp_iface_ip_qinq: '10.11.2.254'
