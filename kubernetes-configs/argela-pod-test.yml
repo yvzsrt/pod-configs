@@ -1,10 +1,10 @@
 # SEBA Values
 
-envoyForEtcdImage: '192.168.31.137:5000/voltha/voltha-envoy:berlin-1.0.2'
-netconfImage: '192.168.31.137:5000/voltha/voltha-netconf:berlin-1.0.2'
-ofagentImage: '192.168.31.137:5000/voltha/voltha-ofagent:berlin-1.0.2'
-vcliImage: '192.168.31.137:5000/voltha/voltha-cli:berlin-1.0.2'
-vcoreImage: '192.168.31.137:5000/voltha/voltha-voltha:berlin-1.0.2'
+envoyForEtcdImage: '192.168.31.137:5000/voltha/voltha-envoy:1.4.0'
+netconfImage: '192.168.31.137:5000/voltha/voltha-netconf:1.4.0'
+ofagentImage: '192.168.31.137:5000/voltha/voltha-ofagent:1.4.0'
+vcliImage: '192.168.31.137:5000/voltha/voltha-cli:1.4.0'
+vcoreImage: '192.168.31.137:5000/voltha/voltha-voltha:1.4.0'
 
 onosImage: '192.168.31.137:5000/onosproject/onos:1.13.5'
 
