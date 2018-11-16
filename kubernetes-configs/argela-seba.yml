@@ -3,20 +3,6 @@
 global:
   registry: '192.168.31.203:5000/'
 
-envoyForEtcdImage: 'voltha/voltha-envoy:1.5.0'
-netconfImage: 'voltha/voltha-netconf:1.5.0'
-ofagentImage: 'voltha/voltha-ofagent:1.5.0'
-vcliImage: 'voltha/voltha-cli:1.5.0'
-vcoreImage: 'voltha/voltha-voltha:1.5.0'
-
-onosImage: 'onosproject/onos:1.13.4'
-
-xos_coreImage: 'xosproject/xos-core:2.1.0'
-fabric:
-  fabric_synchronizerImage: 'xosproject/fabric-synchronizer:2.1.0'
-att-workflow-driver:
-  attWorkflowDriver_synchronizerImage: 'xosproject/att-workflow-driver-synchronizer:1.0.0'
-
 # application_logs: |
 #   log4j.logger.org.opencord.olt = DEBUG
 #   log4j.logger.org.opencord.kafka = DEBUG
