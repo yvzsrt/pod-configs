@@ -20,15 +20,15 @@ kube_config: '/var/lib/jenkins/workspace/seba/pod-configs/kubernetes-configs/arg
 
 nodes:
   -
-    ip: '192.168.31.134'
+    ip: '192.168.31.204'
     user: 'cord'
     pass: 'cord'
   -
-    ip: '192.168.31.135'
+    ip: '192.168.31.205'
     user: 'cord'
     pass: 'cord'
   -
-    ip: '192.168.31.136'
+    ip: '192.168.31.206'
     user: 'cord'
     pass: 'cord'
 
